@@ -141,14 +141,14 @@ Import `Maritime_Dashboard_API.postman_collection.json`
 ## 📸 Screenshots
 
 - ✅ Dashboard (Desktop & Mobile)
-![](../../../Pictures/Screenshots/Screenshot%20(395).png)
+![](src/screenshots/dashboard.png)
+
 - ✅ Login / Signup pages
-![](../../../Pictures/Screenshots/Screenshot%20(393).png)
-![](../../../../Downloads/WhatsApp%20Image%202025-05-22%20at%2020.27.40.jpeg)
+![](src/screenshots/login.png)
 
 - ✅ API testing in Postman  
 (Screenshots included in `/screenshots/` folder)
-![](../../../Pictures/Screenshots/Screenshot%20(396).png)
+![](src/screenshots/postman.png)
 ---
 
 ## 📁 Project Structure
