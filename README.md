@@ -1,174 +1,187 @@
-Maritime Operations Dashboard
-This project is a full-stack application developed for the Fathom Marine Consultants Full-Stack Developer Assessment. It includes user authentication, a responsive dashboard displaying marine data, and a mock API for ship details. The app is built to be accessible on both desktop and mobile devices.
-Tech Stack
+# 🌊 Maritime Operations Dashboard
 
-Backend: Node.js, Express, MongoDB, bcrypt, JWT
-Frontend: React, React Router, Tailwind CSS, Axios
-Tools: Postman for API testing
+This is a full-stack application developed as part of the **Fathom Marine Consultants Full-Stack Developer Assessment**. The app allows users to sign up, log in, and view mock ship data on a responsive dashboard.
 
-Features
+### 🔧 Live Demo
+- Frontend (Netlify): [maritimeod.netlify.app](https://lively-cascaron-1f549d.netlify.app/login)
+- Backend (Render): [maritimeod.onrender.com](https://maritimeod.onrender.com)
 
-User Authentication:
-Signup and login with email and password.
-Passwords are hashed using bcrypt.
-JWT is used for session management.
-Error handling for duplicate users, invalid credentials, etc.
+---
 
+## 🛠 Tech Stack
 
-Dashboard:
-Responsive layout with a top navbar (hamburger menu on mobile).
-Welcome message displaying the user's name after login.
-Displays marine data in both card and table formats.
-Cards show ship details (Name, Type, IMO, Flag) in a grid layout.
-Table provides a detailed view of ship data, scrollable on mobile.
-Includes a search feature to filter ships by name.
-Shows a "Last updated" timestamp for data freshness.
+- **Frontend:** React, React Router, Tailwind CSS, Axios
+- **Backend:** Node.js, Express.js, MongoDB, JWT, Bcrypt
+- **Tools:** Postman (API Testing), Render (Backend Hosting), Netlify (Frontend Hosting)
 
+---
 
-Marine Data API:
-Mock API (/api/ships) to fetch ship details by name.
-Returns mock data since the Equasis website (https://www.equasis.org) requires authentication.
+## 🚀 Features
 
+### ✅ Authentication
+- Sign up / Login with JWT-based sessions
+- Bcrypt-hashed passwords
+- Protected routes with middleware
+- Error handling (duplicate users, invalid credentials)
 
-Responsiveness:
-Fully responsive design using Tailwind CSS.
-Navbar switches to a hamburger menu on mobile.
-Forms and tables are touch-friendly and adapt to screen sizes.
+### 📊 Dashboard
+- Responsive layout (mobile + desktop)
+- Welcome message with user name
+- Ship data in card and table formats
+- Search functionality to filter ships by name
+- "Last Updated" timestamp
 
+### 🛰 Marine Data API
+- Mock data returned from `/api/ships?name=...`
+- Ships include: Name, Type, IMO, Flag
+- API does **not use Equasis** due to login requirement
 
+---
 
-Setup Instructions
-Prerequisites
+## 🖥️ Setup Instructions
 
-Node.js (v16 or higher)
-MongoDB (local or cloud instance)
-Git
+### Prerequisites
+- Node.js (v16+)
+- MongoDB (local or Atlas)
+- Git
 
-Backend Setup
+### 🔁 Backend Setup
 
-Clone the repository:git clone <your-repo-link>
-cd maritime-dashboard
+```bash
+git clone https://github.com/aloki9singh/maritimeOD.git
+cd maritimeOD/backend
+npm install
+```
 
+Create a `.env` file in `backend/`:
 
-Navigate to the backend directory:cd backend
+```
+JWT_SECRET=your_secret_key
+```
 
+Update MongoDB URI in `server.js` if not using default local MongoDB:
 
-Install dependencies:npm install
+```js
+const MONGO_URI = 'mongodb://127.0.0.1:27017/maritime';
+```
 
+Start backend:
+```bash
+npm start
+```
 
-Create a .env file in the backend directory with:JWT_SECRET=your_jwt_secret_key
+### 🔁 Frontend Setup
 
-Replace your_jwt_secret_key with a secure key (e.g., a random string).
-Start MongoDB locally or update the MongoDB connection string in server.js if using a cloud instance (default: mongodb://127.0.0.1:27017/maritime).
-Run the backend:npm start
-
-The server runs on http://<your-ip>:5000 (e.g., http://192.168.1.100:5000). Find your local IP address using ipconfig (Windows) or ifconfig (Mac/Linux).
-
-Frontend Setup
-
-Navigate to the frontend directory:cd frontend
-
-
-Install dependencies, including Tailwind CSS:npm install
+```bash
+cd ../frontend
+npm install
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
+```
 
-
-Update the API URLs in App.jsx, Login.jsx, and Signup.jsx:
-Replace http://<your-ip>:5000 with your local IP address (e.g., http://192.168.1.100:5000).
-Example in Login.jsx:const res = await axios.post('http://192.168.1.100:5000/api/auth/login', { email, password });
-
-
-
-
-Ensure tailwind.config.js includes:module.exports = {
+**Edit Tailwind config:**
+```js
+// tailwind.config.js
+module.exports = {
   content: ['./src/**/*.{js,jsx}'],
   theme: { extend: {} },
   plugins: [],
 };
+```
 
-
-Ensure src/index.css includes:@tailwind base;
+**Edit index.css:**
+```css
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+```
 
+**Update API URLs in:**
+- `App.jsx`
+- `Login.jsx`
+- `Signup.jsx`
 
-Start the frontend:npm start
+Replace:
+```js
+http://localhost:5000
+```
+With:
+```js
+https://maritimeod.onrender.com
+```
 
-The app runs on http://<your-ip>:3000 (e.g., http://192.168.1.100:3000).
+Start frontend:
+```bash
+npm start
+```
 
-Accessing on Mobile
+---
 
-Ensure your phone is on the same Wi-Fi network as your development machine.
-Use your local IP address to access the app (e.g., http://192.168.1.100:3000 on your phone’s browser).
-Update firewall settings if needed to allow ports 3000 and 5000.
+## 📱 Access on Mobile
 
-API Testing
+- Ensure phone & PC are on the same Wi-Fi
+- Use your system IP (like `http://192.168.1.100:3000`) to access on mobile
+- Open ports 3000 and 5000 in firewall if needed
 
-Import the Maritime_Dashboard_API.postman_collection.json (located in the project root) into Postman.
-Test the following endpoints:
-POST http://<your-ip>:5000/api/auth/signup: Create a new user (e.g., { "name": "John Doe", "email": "john@example.com", "password": "password123" }).
-POST http://<your-ip>:5000/api/auth/login: Login and get JWT (e.g., { "email": "john@example.com", "password": "password123" }).
-GET http://<your-ip>:5000/api/auth/user: Get user info (requires Bearer token in headers).
-GET http://<your-ip>:5000/api/ships?name=<ship_name>: Get ship details (e.g., ?name=Icon).
+---
 
+## 🔍 API Testing (Postman)
 
-Screenshots of API testing are included in the screenshots/ directory (if applicable).
+Import `Maritime_Dashboard_API.postman_collection.json`
 
-Usage
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/signup` | Register new user |
+| `POST` | `/api/auth/login` | Login & receive JWT |
+| `GET`  | `/api/auth/user` | Get user info (requires token) |
+| `GET`  | `/api/ships?name=Icon` | Fetch ship data by name |
 
-Signup: Go to http://<your-ip>:3000/signup, enter your name, email, and password, and submit. You’ll be redirected to the dashboard.
-Login: Go to http://<your-ip>:3000/login, enter your email and password, and submit. You’ll be redirected to the dashboard.
-Dashboard:
-View the welcome message ("Welcome, ").
-Search for ships by name (e.g., "Icon").
-View ship details in both card and table formats.
-Check the "Last updated" timestamp for data freshness.
-Use the navbar (hamburger menu on mobile) to navigate or logout.
+---
 
+## 📸 Screenshots
 
+- ✅ Dashboard (Desktop & Mobile)
+- ✅ Login / Signup pages
+- ✅ API testing in Postman  
+(Screenshots included in `/screenshots/` folder)
 
-Screenshots
+---
 
-Desktop View: Dashboard with navbar, cards, and table.
-Mobile View: Login page, dashboard with hamburger menu open.
-API Testing: Screenshots of Postman requests (signup, login, ship data).
-(Located in the screenshots/ directory or submitted separately.)
+## 📁 Project Structure
 
-Notes
-
-The Equasis website (https://www.equasis.org) requires authentication, so a mock API was implemented with sample ship data (e.g., "Icon of the Seas", Type: "Cruise Ship", IMO: "1234567", Flag: "Bahamas").
-Tailwind CSS is installed as a dependency for better performance and offline development.
-The app is fully responsive, with a hamburger menu for mobile views, touch-friendly forms, and a scrollable table.
-The code is modularized with separate files for routes, models, and middleware in the backend, and clear component separation in the frontend.
-
-Folder Structure
-maritime-dashboard/
+```
+maritimeOD/
 ├── backend/
 │   ├── middleware/
-│   │   ├── auth.js
-│   │   └── error.js
 │   ├── models/
-│   │   └── User.js
 │   ├── routes/
-│   │   ├── auth.js
-│   │   └── ships.js
 │   ├── server.js
-│   ├── package.json
-│   └── ...
+│   └── package.json
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx
-│   │   ├── Login.jsx
-│   │   ├── Signup.jsx
-│   │   ├── ErrorAlert.jsx
-│   │   ├── index.jsx
-│   │   ├── index.css
-│   │   └── index.html
-│   ├── package.json
+│   ├── public/
 │   ├── tailwind.config.js
-│   └── ...
+│   └── package.json
 ├── Maritime_Dashboard_API.postman_collection.json
 └── README.md
+```
 
-https://maritimeod.onrender.com/
+---
+
+## ⚠️ Notes
+
+- Marine data is mocked due to restrictions on Equasis API access.
+- React Router is used — Netlify deploy needs `_redirects` file in `/public/`:
+  ```
+  /* /index.html 200
+  ```
+
+---
+
+## 👨‍💻 Author
+**Alok Singh** — [GitHub](https://github.com/aloki9singh)
+
+---
+
+## 📜 License
+This project is licensed under the ISC License.
