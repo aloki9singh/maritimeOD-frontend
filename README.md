@@ -1,70 +1,174 @@
-# Getting Started with Create React App
+Maritime Operations Dashboard
+This project is a full-stack application developed for the Fathom Marine Consultants Full-Stack Developer Assessment. It includes user authentication, a responsive dashboard displaying marine data, and a mock API for ship details. The app is built to be accessible on both desktop and mobile devices.
+Tech Stack
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Backend: Node.js, Express, MongoDB, bcrypt, JWT
+Frontend: React, React Router, Tailwind CSS, Axios
+Tools: Postman for API testing
 
-## Available Scripts
+Features
 
-In the project directory, you can run:
+User Authentication:
+Signup and login with email and password.
+Passwords are hashed using bcrypt.
+JWT is used for session management.
+Error handling for duplicate users, invalid credentials, etc.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Dashboard:
+Responsive layout with a top navbar (hamburger menu on mobile).
+Welcome message displaying the user's name after login.
+Displays marine data in both card and table formats.
+Cards show ship details (Name, Type, IMO, Flag) in a grid layout.
+Table provides a detailed view of ship data, scrollable on mobile.
+Includes a search feature to filter ships by name.
+Shows a "Last updated" timestamp for data freshness.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+Marine Data API:
+Mock API (/api/ships) to fetch ship details by name.
+Returns mock data since the Equasis website (https://www.equasis.org) requires authentication.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+Responsiveness:
+Fully responsive design using Tailwind CSS.
+Navbar switches to a hamburger menu on mobile.
+Forms and tables are touch-friendly and adapt to screen sizes.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Setup Instructions
+Prerequisites
 
-### `npm run eject`
+Node.js (v16 or higher)
+MongoDB (local or cloud instance)
+Git
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Backend Setup
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Clone the repository:git clone <your-repo-link>
+cd maritime-dashboard
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Navigate to the backend directory:cd backend
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Install dependencies:npm install
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+Create a .env file in the backend directory with:JWT_SECRET=your_jwt_secret_key
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Replace your_jwt_secret_key with a secure key (e.g., a random string).
+Start MongoDB locally or update the MongoDB connection string in server.js if using a cloud instance (default: mongodb://127.0.0.1:27017/maritime).
+Run the backend:npm start
 
-### Analyzing the Bundle Size
+The server runs on http://<your-ip>:5000 (e.g., http://192.168.1.100:5000). Find your local IP address using ipconfig (Windows) or ifconfig (Mac/Linux).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Frontend Setup
 
-### Making a Progressive Web App
+Navigate to the frontend directory:cd frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+Install dependencies, including Tailwind CSS:npm install
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+Update the API URLs in App.jsx, Login.jsx, and Signup.jsx:
+Replace http://<your-ip>:5000 with your local IP address (e.g., http://192.168.1.100:5000).
+Example in Login.jsx:const res = await axios.post('http://192.168.1.100:5000/api/auth/login', { email, password });
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+Ensure tailwind.config.js includes:module.exports = {
+  content: ['./src/**/*.{js,jsx}'],
+  theme: { extend: {} },
+  plugins: [],
+};
+
+
+Ensure src/index.css includes:@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+Start the frontend:npm start
+
+The app runs on http://<your-ip>:3000 (e.g., http://192.168.1.100:3000).
+
+Accessing on Mobile
+
+Ensure your phone is on the same Wi-Fi network as your development machine.
+Use your local IP address to access the app (e.g., http://192.168.1.100:3000 on your phone’s browser).
+Update firewall settings if needed to allow ports 3000 and 5000.
+
+API Testing
+
+Import the Maritime_Dashboard_API.postman_collection.json (located in the project root) into Postman.
+Test the following endpoints:
+POST http://<your-ip>:5000/api/auth/signup: Create a new user (e.g., { "name": "John Doe", "email": "john@example.com", "password": "password123" }).
+POST http://<your-ip>:5000/api/auth/login: Login and get JWT (e.g., { "email": "john@example.com", "password": "password123" }).
+GET http://<your-ip>:5000/api/auth/user: Get user info (requires Bearer token in headers).
+GET http://<your-ip>:5000/api/ships?name=<ship_name>: Get ship details (e.g., ?name=Icon).
+
+
+Screenshots of API testing are included in the screenshots/ directory (if applicable).
+
+Usage
+
+Signup: Go to http://<your-ip>:3000/signup, enter your name, email, and password, and submit. You’ll be redirected to the dashboard.
+Login: Go to http://<your-ip>:3000/login, enter your email and password, and submit. You’ll be redirected to the dashboard.
+Dashboard:
+View the welcome message ("Welcome, ").
+Search for ships by name (e.g., "Icon").
+View ship details in both card and table formats.
+Check the "Last updated" timestamp for data freshness.
+Use the navbar (hamburger menu on mobile) to navigate or logout.
+
+
+
+Screenshots
+
+Desktop View: Dashboard with navbar, cards, and table.
+Mobile View: Login page, dashboard with hamburger menu open.
+API Testing: Screenshots of Postman requests (signup, login, ship data).
+(Located in the screenshots/ directory or submitted separately.)
+
+Notes
+
+The Equasis website (https://www.equasis.org) requires authentication, so a mock API was implemented with sample ship data (e.g., "Icon of the Seas", Type: "Cruise Ship", IMO: "1234567", Flag: "Bahamas").
+Tailwind CSS is installed as a dependency for better performance and offline development.
+The app is fully responsive, with a hamburger menu for mobile views, touch-friendly forms, and a scrollable table.
+The code is modularized with separate files for routes, models, and middleware in the backend, and clear component separation in the frontend.
+
+Folder Structure
+maritime-dashboard/
+├── backend/
+│   ├── middleware/
+│   │   ├── auth.js
+│   │   └── error.js
+│   ├── models/
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── ships.js
+│   ├── server.js
+│   ├── package.json
+│   └── ...
+├── frontend/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── Login.jsx
+│   │   ├── Signup.jsx
+│   │   ├── ErrorAlert.jsx
+│   │   ├── index.jsx
+│   │   ├── index.css
+│   │   └── index.html
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── ...
+├── Maritime_Dashboard_API.postman_collection.json
+└── README.md
+
+https://maritimeod.onrender.com/
