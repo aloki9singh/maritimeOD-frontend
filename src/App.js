@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ErrorAlert from './ErrorAlert';
 
-// Main dashboard component
 const App = () => {
-  // State for user info, ship data, search input, errors, menu visibility, and last updated time
   const [user, setUser] = useState(null);
   const [ships, setShips] = useState([]);
   const [search, setSearch] = useState('');
@@ -14,7 +12,6 @@ const App = () => {
   const [lastUpdated, setLastUpdated] = useState(null);
   const navigate = useNavigate();
 
-  // Check for token and fetch user info on mount
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -33,43 +30,37 @@ const App = () => {
     }
   }, [navigate]);
 
-  // Fetch ship data based on search input and update lastUpdated timestamp
   useEffect(() => {
     axios
       .get(`https://maritimeod.onrender.com/api/ships${search ? `?name=${search}` : ''}`)
       .then((res) => {
         setShips(Array.isArray(res.data) ? res.data : [res.data]);
-        // Update the last updated timestamp
         const now = new Date();
         setLastUpdated(now);
       })
       .catch((err) => setError(err.response?.data?.error || 'Failed to fetch ship data'));
   }, [search]);
 
-  // Handle window resize to close menu on desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        setIsMenuOpen(false); // Close menu on desktop (md: breakpoint)
+        setIsMenuOpen(false);
       }
     };
     window.addEventListener('resize', handleResize);
-    handleResize(); // Initial check
+    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Handle logout and redirect to login
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
   };
 
-  // Toggle menu visibility for mobile
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Format the last updated timestamp
   const formatDateTime = (date) => {
     if (!date) return 'Not yet updated';
     return date.toLocaleString('en-US', {
@@ -79,19 +70,15 @@ const App = () => {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true,
-      timeZone: 'Asia/Kolkata', // IST timezone
+      timeZone: 'Asia/Kolkata',
     });
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Navbar for Desktop, Hamburger for Mobile */}
       <nav className="bg-blue-800 text-white p-4">
         <div className="flex justify-between items-center">
-          {/* Navbar Title */}
           <h2 className="text-xl md:text-2xl font-bold">Maritime Dashboard</h2>
-
-          {/* Hamburger Menu for Mobile */}
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -114,8 +101,6 @@ const App = () => {
               </svg>
             </button>
           </div>
-
-          {/* Navbar Links for Desktop */}
           <ul className="hidden md:flex space-x-4">
             <li>
               <a href="#" className="hover:text-blue-300">
@@ -134,8 +119,6 @@ const App = () => {
             </li>
           </ul>
         </div>
-
-        {/* Mobile Menu (Slide-in) */}
         {isMenuOpen && (
           <div className="md:hidden">
             <ul className="mt-4 space-y-2">
@@ -172,28 +155,50 @@ const App = () => {
           </div>
         )}
       </nav>
-
-      {/* Main content area */}
       <div className="p-4 md:p-6">
         <ErrorAlert message={error} onClose={() => setError('')} />
         {user && (
           <div>
-            {/* Welcome message with user name */}
             <h1 className="text-2xl md:text-3xl font-bold mb-4">Welcome, {user.name}</h1>
-            {/* Ship search input */}
             <div className="mb-4">
               <input
                 type="text"
                 placeholder="Search ship by name"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="p-2 border rounded w-full max-w-md"
+                className="p-2 border rounded w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
-            {/* Ship data table with last updated timestamp */}
+            {/* Ship data cards */}
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg md:text-xl font-semibold">Ship Cards</h2>
+                <p className="text-sm text-gray-600">
+                  Last updated: {formatDateTime(lastUpdated)}
+                </p>
+              </div>
+              {ships.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {ships.map((ship, index) => (
+                    <div
+                      key={index}
+                      className="bg-white shadow rounded-lg p-4 hover:shadow-lg transition-shadow"
+                    >
+                      <h3 className="text-lg font-semibold text-blue-800">{ship.name}</h3>
+                      <p className="text-gray-600">Type: {ship.type}</p>
+                      <p className="text-gray-600">IMO: {ship.imo}</p>
+                      <p className="text-gray-600">Flag: {ship.flag}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-600">No ships found.</p>
+              )}
+            </div>
+            {/* Ship data table */}
             <div className="bg-white shadow rounded-lg p-4 overflow-x-auto">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg md:text-xl font-semibold">Ship Data</h2>
+                <h2 className="text-lg md:text-xl font-semibold">Ship Data Table</h2>
                 <p className="text-sm text-gray-600">
                   Last updated: {formatDateTime(lastUpdated)}
                 </p>
