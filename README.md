@@ -49,7 +49,7 @@ This is a full-stack application developed as part of the **Fathom Marine Consul
 
 ```bash
 git clone https://github.com/aloki9singh/maritimeOD.git
-cd maritimeOD/backend
+cd maritimeOD
 npm install
 ```
 
@@ -62,7 +62,7 @@ JWT_SECRET=your_secret_key
 Update MongoDB URI in `server.js` if not using default local MongoDB:
 
 ```js
-const MONGO_URI = 'mongodb://127.0.0.1:27017/maritime';
+const MONGO_URI = mongodb+srv://xyz:xyz@cluster0.opoij8a.mongodb.net/maritimeod?retryWrites=true&w=majority&appName=Cluster0;
 ```
 
 Start backend:
@@ -141,10 +141,14 @@ Import `Maritime_Dashboard_API.postman_collection.json`
 ## 📸 Screenshots
 
 - ✅ Dashboard (Desktop & Mobile)
+![](../../../Pictures/Screenshots/Screenshot%20(395).png)
 - ✅ Login / Signup pages
+![](../../../Pictures/Screenshots/Screenshot%20(393).png)
+![](../../../../Downloads/WhatsApp%20Image%202025-05-22%20at%2020.27.40.jpeg)
+
 - ✅ API testing in Postman  
 (Screenshots included in `/screenshots/` folder)
-
+![](../../../Pictures/Screenshots/Screenshot%20(396).png)
 ---
 
 ## 📁 Project Structure
