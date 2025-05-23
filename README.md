@@ -3,7 +3,7 @@
 This is a full-stack application developed as part of the **Fathom Marine Consultants Full-Stack Developer Assessment**. The app allows users to sign up, log in, and view mock ship data on a responsive dashboard.
 
 ### 🔧 Live Demo
-- Frontend (Netlify): [maritimeod.netlify.app](https://lively-cascaron-1f549d.netlify.app/login)
+- Frontend (Vercel): [maritimeod.vercel.app](https://maritime-od-frontend.vercel.app)
 - Backend (Render): [maritimeod.onrender.com](https://maritimeod.onrender.com)
 
 ---
